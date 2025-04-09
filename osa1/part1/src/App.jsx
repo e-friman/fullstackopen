@@ -8,13 +8,15 @@ const Hello = (props) => {
 }
 
 const App = () => {
-  const nimi = 'Eino'
-  const ika = 24
+  const friends = [
+    { name: 'Leevi', age: 4 },
+    { name: 'Venla', age: 10 },
+  ]
+
   return (
     <div>
-      <h1>Greetings</h1>
-      <Hello name="Suomi" age={2025 - 1917}/>
-      <Hello name={nimi} age={ika}/>
+      <p>{friends[0].name} {friends[0].age}</p>
+      <p>{friends[1].name} {friends[1].age}</p>
     </div>
   )
 }
