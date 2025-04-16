@@ -17,7 +17,7 @@ const App = () => {
   const ary = new Uint8Array(anecdotes.length)
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(ary)
-  const [most, setMost] = useState(votes)
+  const [most, setMost] = useState(0)
 
   const handleClick = () => setSelected(Math.round((anecdotes.length - 1) * Math.random()))
 
