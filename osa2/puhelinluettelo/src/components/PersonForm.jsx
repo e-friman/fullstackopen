@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import axios from 'axios'
+import personService from '../services/persons';
+
 
 export const PersonForm = ({ persons, setPersons }) => {
   const [newName, setNewName] = useState('');
@@ -19,12 +22,28 @@ export const PersonForm = ({ persons, setPersons }) => {
       number: newNumber
     };
 
-    persons.find(({ name }) => name === newName)
-      ? alert(`${newName} is already added to phonebook`)
-      : setPersons(persons.concat(personObject));
+    const person = persons.find(({ name }) => name === newName)
 
-    setNewName('');
-    setNewNumber('');
+    person
+      ? window.confirm(`${newName} is already added to phonebook. Do you want to update phone number`)
+        ? personService
+          .update(person.id, personObject)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.name === newName ? returnedPerson : person))
+            setNewName('')
+            setNewNumber('')
+          })
+        : alert("Cancelled")
+
+      : personService
+        .create(personObject)
+        .then(newPerson => {
+          setPersons(persons.concat(newPerson))
+          setNewName('');
+          setNewNumber('');
+        });
+
+
   };
 
 

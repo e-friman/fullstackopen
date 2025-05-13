@@ -1,18 +1,39 @@
-export const Persons = ({ persons, filter }) => {
+import personService from '../services/persons';
 
-  const Person = ({ name, number }) => {
-    return (
-      <div>
+const Person = ({ name, number, id, setPersons, persons }) => {
+
+  const handleDelete = (event) => {
+    event.preventDefault()
+    window.confirm(`Delete ${name}`)
+      ? personService.remove(id)
+        .then(setPersons(persons.filter(person => person.id !== id)))
+      : console.log("cancelled");
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleDelete}>
         {name} {number}
-      </div>
-    );
-  };
+        <button type="submit">delete</button>
+      </form>
+    </div>
+  );
+};
 
+export const Persons = ({ persons, filter, setPersons }) => {
   return (
     <div>
       {persons
         .filter(({ name }) => name.toLowerCase().includes(filter.toLowerCase()))
-        .map(person => <Person key={person.name} name={person.name} number={person.number} />
+        .map(person =>
+          <Person 
+          key={person.id} 
+          name={person.name} 
+          number={person.number} 
+          id={person.id} 
+          setPersons={setPersons} 
+          persons={persons}
+          />
         )}
     </div>
   );
