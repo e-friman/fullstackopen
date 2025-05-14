@@ -1,12 +1,20 @@
 import personService from '../services/persons';
 
-const Person = ({ name, number, id, setPersons, persons }) => {
+const Person = ({ name, number, id, setPersons, persons, setNotificationMessage }) => {
 
   const handleDelete = (event) => {
     event.preventDefault()
     window.confirm(`Delete ${name}`)
       ? personService.remove(id)
-        .then(setPersons(persons.filter(person => person.id !== id)))
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+          setNotificationMessage(
+            `Deleted ${name}`
+          )
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 3000)
+        })
       : console.log("cancelled");
   }
 
@@ -20,19 +28,20 @@ const Person = ({ name, number, id, setPersons, persons }) => {
   );
 };
 
-export const Persons = ({ persons, filter, setPersons }) => {
+export const Persons = ({ persons, filter, setPersons, setNotificationMessage }) => {
   return (
     <div>
       {persons
         .filter(({ name }) => name.toLowerCase().includes(filter.toLowerCase()))
         .map(person =>
-          <Person 
-          key={person.id} 
-          name={person.name} 
-          number={person.number} 
-          id={person.id} 
-          setPersons={setPersons} 
-          persons={persons}
+          <Person
+            key={person.id}
+            name={person.name}
+            number={person.number}
+            id={person.id}
+            setPersons={setPersons}
+            persons={persons}
+            setNotificationMessage={setNotificationMessage}
           />
         )}
     </div>
