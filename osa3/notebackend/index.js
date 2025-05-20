@@ -1,5 +1,23 @@
+require('dotenv').config()
 const express = require('express')
+const Note = require('./models/note')
+
 const app = express()
+const mongoose = require('mongoose')
+
+
+const password = process.argv[2]
+const url = `mongodb+srv://frimajar:${password}@fullstackopen.0qcixmj.mongodb.net/noteApp?`
+
+mongoose.set('strictQuery', false)
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  important: Boolean,
+})
+
+const Note = require('./models/note')
 
 app.use(express.json())
 app.use(express.static('dist'))
@@ -28,7 +46,9 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (request, response) => {
@@ -52,8 +72,8 @@ app.post('/api/notes', (request, response) => {
   const body = request.body
 
   if (!body.content) {
-    return response.status(400).json({ 
-      error: 'content missing' 
+    return response.status(400).json({
+      error: 'content missing'
     })
   }
 
@@ -75,7 +95,7 @@ app.delete('/api/notes/:id', (request, response) => {
   response.status(204).end()
 })
 
-const PORT = 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
