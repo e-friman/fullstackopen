@@ -10,7 +10,9 @@ const password = process.argv[2]
 const url = `mongodb+srv://frimajar:${password}@fullstackopen.0qcixmj.mongodb.net/noteApp?`
 
 mongoose.set('strictQuery', false)
-mongoose.connect(url)
+if (mongoose.connection.readyState === 0) {
+  mongoose.connect(url)
+}
 
 const noteSchema = new mongoose.Schema({
   content: String,
