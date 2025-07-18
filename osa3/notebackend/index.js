@@ -17,8 +17,6 @@ const noteSchema = new mongoose.Schema({
   important: Boolean,
 })
 
-const Note = require('./models/note')
-
 app.use(express.json())
 app.use(express.static('dist'))
 

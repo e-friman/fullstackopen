@@ -4,6 +4,8 @@ const password = process.argv[2]
 const name = process.argv[3]
 const number = process.argv[4]
 
+console.log(process.argv);
+
 const url = `mongodb+srv://frimajar:${password}@fullstackopen.0qcixmj.mongodb.net/puhelinluetteloApp?`
 
 mongoose.set('strictQuery', false)
