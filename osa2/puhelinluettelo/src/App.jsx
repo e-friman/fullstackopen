@@ -50,7 +50,7 @@ const App = () => {
       <Notification message={notificationMessage} />
       <Filter newFilter={newFilter} setNewFilter={setNewFilter} />
 
-      <h3>Add a new</h3>
+      <h3>Add a new contact</h3>
       <PersonForm persons={persons} setPersons={setPersons} setErrorMessage={setErrorMessage} setNotificationMessage={setNotificationMessage}/>
 
       <h2>Numbers</h2>
