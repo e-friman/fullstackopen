@@ -61,6 +61,28 @@ export const PersonForm = ({ persons, setPersons, setErrorMessage, setNotificati
           setTimeout(() => {
             setNotificationMessage(null)
           }, 3000)
+        })
+        .catch(error => {
+          const resp = error.response && error.response.data ? error.response.data : null
+          let message = `Failed to add ${newName}`
+
+          if (resp) {
+            if (resp.error) {
+              message = resp.error
+            } else if (resp.errors) {
+              const msgs = Object.values(resp.errors).map(e => e.message).filter(Boolean)
+              if (msgs.length) message = msgs.join(', ')
+            } else if (resp.message) {
+              message = resp.message
+            }
+          }
+
+          setErrorMessage(message)
+          console.log(resp)
+
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 5000)
         });
 
 
