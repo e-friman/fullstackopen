@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios'
 import personService from '../services/persons';
 
 
@@ -39,7 +38,7 @@ export const PersonForm = ({ persons, setPersons, setErrorMessage, setNotificati
             setNewName('')
             setNewNumber('')
           })
-          .catch(error => {
+          .catch(() => {
             setErrorMessage(
               `Information of ${person.name} was already removed from server`
             )
